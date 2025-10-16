@@ -78,6 +78,7 @@
         <article 
           v-for="d in filteredDestinations" 
           :key="d.id" 
+          @click="goToDetail(d.id)"
           class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2"
         >
           <div class="relative overflow-hidden h-52">
@@ -99,15 +100,15 @@
                 <span class="text-xs text-slate-500">起价</span>
                 <div class="text-primary font-bold text-xl">¥{{ d.price.toLocaleString() }}</div>
               </div>
-              <RouterLink 
+              <button 
+                @click.stop="goToDetail(d.id)"
                 class="flex items-center gap-1 text-accent hover:text-accent/80 font-semibold text-sm group-hover:gap-2 transition-all" 
-                :to="{ name: 'booking', query: { dest: d.id } }"
               >
                 查看详情
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
-              </RouterLink>
+              </button>
             </div>
           </div>
         </article>
@@ -125,7 +126,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 type Destination = {
   id: string
@@ -135,6 +136,8 @@ type Destination = {
   type: 'beach' | 'mountain' | 'city'
   image: string
 }
+
+const router = useRouter()
 
 const destinations = ref<Destination[]>([
   { id: 'bali', name: '巴厘岛', description: '阳光海滩与文化之旅，体验热带风情和当地传统', price: 1999, type: 'beach', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop' },
@@ -167,6 +170,10 @@ const getTypeLabel = (type: string) => {
     city: '🏙️ 城市'
   }
   return labels[type as keyof typeof labels] || type
+}
+
+const goToDetail = (id: string) => {
+  router.push({ name: 'detail', params: { id } })
 }
 </script>
 
