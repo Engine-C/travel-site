@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const destinations = ref([
     { id: 'bali', name: '巴厘岛', description: '阳光海滩与文化之旅，体验热带风情和当地传统', price: 1999, type: 'beach', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop' },
     { id: 'alps', name: '阿尔卑斯山', description: '雪山与徒步探险，感受大自然的壮美与宁静', price: 2599, type: 'mountain', image: 'https://images.unsplash.com/photo-1504194104404-433180773017?q=80&w=1200&auto=format&fit=crop' },
@@ -28,6 +29,9 @@ const getTypeLabel = (type) => {
         city: '🏙️ 城市'
     };
     return labels[type] || type;
+};
+const goToDetail = (id) => {
+    router.push({ name: 'detail', params: { id } });
 };
 debugger; /* PartiallyEnd: #3632/scriptSetup.vue */
 const __VLS_ctx = {};
@@ -154,6 +158,9 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 });
 for (const [d] of __VLS_getVForSourceType((__VLS_ctx.filteredDestinations))) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.article, __VLS_intrinsicElements.article)({
+        ...{ onClick: (...[$event]) => {
+                __VLS_ctx.goToDetail(d.id);
+            } },
         key: (d.id),
         ...{ class: "group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2" },
     });
@@ -194,18 +201,12 @@ for (const [d] of __VLS_getVForSourceType((__VLS_ctx.filteredDestinations))) {
         ...{ class: "text-primary font-bold text-xl" },
     });
     (d.price.toLocaleString());
-    const __VLS_0 = {}.RouterLink;
-    /** @type {[typeof __VLS_components.RouterLink, typeof __VLS_components.RouterLink, ]} */ ;
-    // @ts-ignore
-    const __VLS_1 = __VLS_asFunctionalComponent(__VLS_0, new __VLS_0({
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
+        ...{ onClick: (...[$event]) => {
+                __VLS_ctx.goToDetail(d.id);
+            } },
         ...{ class: "flex items-center gap-1 text-accent hover:text-accent/80 font-semibold text-sm group-hover:gap-2 transition-all" },
-        to: ({ name: 'booking', query: { dest: d.id } }),
-    }));
-    const __VLS_2 = __VLS_1({
-        ...{ class: "flex items-center gap-1 text-accent hover:text-accent/80 font-semibold text-sm group-hover:gap-2 transition-all" },
-        to: ({ name: 'booking', query: { dest: d.id } }),
-    }, ...__VLS_functionalComponentArgsRest(__VLS_1));
-    __VLS_3.slots.default;
+    });
     __VLS_asFunctionalElement(__VLS_intrinsicElements.svg, __VLS_intrinsicElements.svg)({
         ...{ class: "w-4 h-4" },
         fill: "none",
@@ -218,7 +219,6 @@ for (const [d] of __VLS_getVForSourceType((__VLS_ctx.filteredDestinations))) {
         'stroke-width': "2",
         d: "M9 5l7 7-7 7",
     });
-    var __VLS_3;
 }
 if (__VLS_ctx.filteredDestinations.length === 0) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -497,12 +497,12 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
-            RouterLink: RouterLink,
             query: query,
             selectedType: selectedType,
             maxPrice: maxPrice,
             filteredDestinations: filteredDestinations,
             getTypeLabel: getTypeLabel,
+            goToDetail: goToDetail,
         };
     },
 });

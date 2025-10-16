@@ -6,6 +6,9 @@ node_modules/
 # Testing
 coverage/
 *.log
+test-results/
+playwright-report/
+playwright/.cache/
 
 # Production
 dist/
@@ -33,4 +36,9 @@ yarn-error.log*
 .cache/
 .temp/
 *.tmp
+
+# TypeScript build artifacts
+*.tsbuildinfo
+*.js
+*.d.ts
 
